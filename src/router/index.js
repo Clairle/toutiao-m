@@ -12,10 +12,11 @@ const routes = [
   },
   {
     path: '/',
+    redirect: 'home',
     component: () => import('@/views/layout'),
     children: [
       {
-        path: '',// 默认子路由
+        path: 'home',// 默认子路由
         name: 'home',
         component: () => import('@/views/home') 
       },
@@ -40,8 +41,18 @@ const routes = [
     path: '/search',
     name: 'search',
     component: () => import('@/views/search')
+  },
+  {
+    path: '/article/:articleId',
+    name: 'article',
+    component: () => import('@/views/article'),
+    props: true // 把路由参数映射到组件的props中
+  },
+  {
+    path: '/user/profile',
+    name: 'user-profile',
+    component: () => import('@/views/user-profile')
   }
-
 ]
 
 const router = new VueRouter({

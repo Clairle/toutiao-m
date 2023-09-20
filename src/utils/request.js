@@ -2,10 +2,26 @@
 import axios from 'axios'
 // 导入数据容器模块 vuex
 import store from "@/store/index"
+// JavaScript中大数json转js替代处理
+import JSONBig from 'json-bigint'
 
 const request = axios.create({
-  baseURL: 'https://toutiao.itheima.net' // 接口的基准路径,要用单引号括起来
+  baseURL: 'https://toutiao.itheima.net', // 接口的基准路径,要用单引号括起来
+
+  // 自定义后端返回的原始数据
+  // data: 后端返回的原始数据，说白了就是 JSON 格式的字符串
+  transformResponse: [function (data) {
+    try {
+      return JSONBig.parse(data)
+    } catch (err) {
+      return data
+    }
+
+    // axios 默认会在内部这样来处理后端返回的数据
+    // return JSON.parse(data)
+  }]
 })
+
 
 // 添加请求拦截器
 request.interceptors.request.use(function (config) {
